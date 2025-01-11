@@ -1,24 +1,15 @@
 version: v1.0
-name: Python CI Pipeline
+name: CI/CD Pipeline for Python with Docker
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: Install Dependencies
+  - name: Build Docker Image
     task:
       jobs:
-        - name: Install Python Requirements
+        - name: Build and Test
           commands:
             - checkout
-            - python3 -m venv venv
-            - . venv/bin/activate
-            - pip install -r requirements.txt
-  - name: Run Tests
-    task:
-      jobs:
-        - name: Execute Tests
-          commands:
-            - checkout
-            - . venv/bin/activate
-            - pytest
+            - docker build -t semaphore-python-demo .
+            - docker run semaphore-python-demo
